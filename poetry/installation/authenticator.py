@@ -3,15 +3,18 @@ import pathlib
 import time
 import urllib.parse
 
-from typing import TYPE_CHECKING, Dict, Generator
+from typing import TYPE_CHECKING
+from typing import Dict
+from typing import Generator
 
 import requests
 import requests.auth
 import requests.exceptions
 
 from poetry.exceptions import PoetryException
+from poetry.utils.helpers import get_cert
+from poetry.utils.helpers import get_client_cert
 from poetry.utils.password_manager import PasswordManager
-from poetry.utils.helpers import get_cert, get_client_cert
 
 
 if TYPE_CHECKING:
@@ -162,16 +165,13 @@ class Authenticator(object):
 
         return credentials
 
-    def get_certs_for_url(
-        self, url
-    ):  # type: (str) -> Dict[str, pathlib.PosixPath]
+    def get_certs_for_url(self, url):  # type: (str) -> Dict[str, pathlib.PosixPath]
         parsed_url = urllib.parse.urlsplit(url)
 
         netloc = parsed_url.netloc
 
         return self._certs.setdefault(
-            netloc,
-            self._get_certs_for_netloc_from_config(netloc),
+            netloc, self._get_certs_for_netloc_from_config(netloc),
         )
 
     def _get_repository_netlocs(self):  # type: () -> Generator[[str, str], None, None]
@@ -196,8 +196,8 @@ class Authenticator(object):
 
         for (repository_name, repository_netloc) in self._get_repository_netlocs():
             if netloc == repository_netloc:
-                certs['cert'] = get_client_cert(self._config, repository_name)
-                certs['verify'] = get_cert(self._config, repository_name)
+                certs["cert"] = get_client_cert(self._config, repository_name)
+                certs["verify"] = get_cert(self._config, repository_name)
                 break
 
         return certs

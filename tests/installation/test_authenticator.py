@@ -209,10 +209,9 @@ def test_authenticator_uses_certs_from_config_if_not_provided(
         {
             "repositories": {"foo": {"url": "https://foo.bar/simple/"}},
             "http-basic": {"foo": {"username": "bar", "password": "baz"}},
-            "certificates": {"foo": {
-                "cert": "/path/to/cert",
-                "client-cert": "/path/to/client-cert",
-            }},
+            "certificates": {
+                "foo": {"cert": "/path/to/cert", "client-cert": "/path/to/client-cert"}
+            },
         }
     )
 
@@ -231,10 +230,9 @@ def test_authenticator_uses_provided_certs_instead_of_config_certs(
         {
             "repositories": {"foo": {"url": "https://foo.bar/simple/"}},
             "http-basic": {"foo": {"username": "bar", "password": "baz"}},
-            "certificates": {"foo": {
-                "cert": "/path/to/cert",
-                "client-cert": "/path/to/client-cert",
-            }},
+            "certificates": {
+                "foo": {"cert": "/path/to/cert", "client-cert": "/path/to/client-cert"}
+            },
         }
     )
 
